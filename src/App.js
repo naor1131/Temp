@@ -1,24 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { ReactBingmaps } from 'react-bingmaps';
 
-function App() {
+const App = () => {
+
+  const [state, setState] = useState({
+    lat:'',
+    lng:'',
+    bingmapKey: 'Ar397GfbHkzoTAXRrZEao2iS9MLmBl4i3I8NG0vA5UKtk8oJbu9h6Oqsg03BZiaa',
+    pushPins : [
+      {
+        "location":[13.0827, 80.2707],
+        "option":{ color: 'red' },
+      }
+    ],
+      
+  });
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex-container">
+        
+        <div className="map-container">
+          <ReactBingmaps 
+            id="one"
+            bingmapKey = {state.bingmapKey} 
+            center = {[13.0827, 80.2707]}
+            zoom = {4}
+            className="map"
+            pushPins={state.pushPins}
+          > 
+          </ReactBingmaps>
+        </div>
+
+
+        <div style={{margin: '10px'}}>
+            <h1>סמן במפה</h1>
+
+            <input value={state.lat} onChange={(e) => {setState({...state, lat: e.target.value})}}/>
+
+            <br/>
+
+            <input value={state.lng} onChange={(e) => {setState({...state, lng: e.target.value})}}/>
+
+            <br/>
+            <button onClick={() => {setState({...state, pushPins: [...state.pushPins, {location: [state.lat, state.lng], option:{ color: 'red' }}]})}}>הוסף</button>
+            
+        </div>
+        
     </div>
   );
 }
